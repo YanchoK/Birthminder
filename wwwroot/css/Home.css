@@ -1,0 +1,29 @@
+p {
+  font-family: "Segoe UI";
+  font-size: 3vw;
+  margin-left: 10vw;
+}
+.line {
+  position: relative;
+  left: 6vw;
+  width: 45vw;
+  height: 5px;
+  background-color: orange;
+  border-radius: 25px;
+}
+
+.under-section {
+  position: absolute;
+  text-align: center;
+  font-size: 1.5vw;
+  font-family: "Segoe UI";
+  left: 10vw;
+}
+
+.bubble {
+  width: 50vw;
+  height: auto;
+
+  position: relative;
+  float: right;
+}

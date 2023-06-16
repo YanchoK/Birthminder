@@ -1,0 +1,172 @@
+@model Birthminder.Models.RegisterFormModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+        .nav-item {
+            visibility: hidden;
+        }
+
+        .pic-holder {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: -1;
+            height: 100%;
+            width: 35vw;
+            background-color: #fcc65173;
+        }
+
+        .sign-up {
+            position: absolute;
+            left: 52vw;
+            top: 8vh;
+            font-size: 4vw;
+            font-weight: 600;
+            margin-left: 5vw;
+        }
+
+        #SignUp-form {
+            position: absolute;
+            left: 46.5vw;
+            top: 30vh;
+        }
+
+        .form-control, #birthdate, #team-div {
+            width: 35vw;
+            height: 7vh;
+            margin-bottom: 30px;
+            border: 2px solid orange;
+            border-radius: 5px;
+            font-size: 1.5vw;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #birthdate {
+            position: absolute;
+            top: 40vh;
+            display: block;
+            width: 17vw;
+            color: dimgrey;
+        }
+
+        #team-div {
+            display: block;
+            position: absolute;
+            padding-left: 1vw;
+            top: 40vh;
+            left: 18vw;
+            width: 17vw;
+            color: dimgrey;
+        }
+
+        .team {
+            position: absolute;
+            font-size: 1.5vw;
+            margin: 0;
+            top: 1vh;
+            left: 15vh;
+            width:9vw;
+        }
+
+        #button {
+            position: absolute;
+            top: 50vh;
+            left: 9vw;
+            padding-left: 55px;
+            padding-right: 55px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 3px solid orange;
+            background-color: orange;
+            color: white;
+            text-align: center;
+            display: block;
+            margin: 0 auto;
+            font-size: 2vw;
+            font-weight: 600;
+            border-radius: 15px;
+        }
+
+            #button:hover {
+                background-color: white;
+                color: orange;
+            }
+
+        .pic {
+            width: 45vw;
+            height: auto;
+            position: absolute;
+            top: 5vh;
+            left: -7vw;
+        }
+        ul {
+            list-style: none;
+            display: inline-block;
+        }
+        li {
+            position: absolute;
+           
+            left: 40vw;
+            word-break: break-all;
+         
+            width: 12vw;
+        }
+            li + li {
+                margin-top: 60px;
+            }
+    </style>
+</head>
+<div class="pic-holder"></div>
+<img src="~/img/login.png" class="pic" alt="">
+<p class="sign-up">Register</p>
+<div class="row">
+    <div class="col-md-4" id="SignUp-form">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group merg">
+
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group merg">
+
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group merg">
+
+                <input asp-for="FullName" class="form-control" placeholder="Full Name" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group merg">
+                <div class="form-group merg">
+
+                    <!-- <input asp-for="BirthDate" class="form-control" />-->
+                    <input asp-for="BirthDate" class="mt-3" type="date" id="birthdate" max="@DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd")" min="@DateTime.Now.AddYears(-80).ToString("yyyy-MM-dd")" >
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="team-div">
+                    <label asp-for="TeamId" class="control-label" style="font-size:1.5vw;padding-top:3vh;"> Team:  </label>
+                    <select asp-for="TeamId" class="team" asp-items="ViewBag.TeamId"></select>
+                </div>
+                <div class="form-group merg">
+                    <input type="submit" value="Sign Up" class="btn btn-primary" id="button" />
+                </div>
+        </form>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<div>
+    <a asp-action="Index" class="merg" id="back" style="visibility:hidden;">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

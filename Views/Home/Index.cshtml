@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "HomePage";
+}
+
+<head>
+
+    <style>
+        p {
+            font-family: "Segoe UI";
+            font-size: 3vw;
+            margin-top: 10vh;
+     
+        }
+
+        .line {
+            position: relative;
+            width: 45vw;
+            height: 5px;
+            background-color: orange;
+            border-radius: 25px;
+        }
+
+        .under-section {
+            position: absolute;
+            text-align: center;
+            font-size: 1.5vw;
+            font-family: "Segoe UI";
+            left: 10vw;
+        }
+        #home{
+            text-decoration:underline;
+        }
+    </style>
+</head>
+
+<body>
+   
+    <p style="margin-left:3vw;">
+        Don't forget your teammates<br>
+        birthdays with BirthMinder
+    </p>
+    <div class="line"></div>
+    <p class="under-section">
+        BirthMinder does not only remind you<br>
+        of a colleague's birthday,<br>
+        but it also helps you <br>
+        choose a present for them!
+    </p>
+    <img src="~/img/bubble.png" style=" width: 45vw;height:auto; position:absolute; bottom:0px;right:0px; margin:0px" z-index:-20;>
+</body>

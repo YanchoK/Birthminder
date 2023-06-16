@@ -1,0 +1,124 @@
+﻿@model Birthminder.Models.Users.LogInUserFormModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<head>
+    <link href="~/css/LogIn.css" rel="stylesheet" type="text/css" />
+    <style>
+        .nav-item{
+            visibility:hidden;
+        }
+        .pic-holder {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: -1;
+            height: 100%;
+            width: 35vw;
+            background-color: #fcc65173;
+        }
+
+        .info {
+            position: absolute;
+            left: 56vw;
+            top: 10vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login {
+            font-size: 3vw;
+            font-weight: 500;
+            margin-left: 5vw;
+        }
+
+        .text {
+            position: relative;
+            font-size: 1.5vw;
+            top: -5vh;
+            left: 0vw;
+            color: rgb(82, 82, 82);
+        }
+
+        #login-form {
+            position: absolute;
+            left: 46.5vw;
+            top: 40vh;
+        }
+
+        .form-control {
+            width: 38vw;
+            height: 8vh;
+            margin-bottom: 30px;
+            border: 2px solid orange;
+            border-radius: 5px;
+            font-size: 1.5vw;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #button {
+            padding-left: 55px;
+            padding-right: 55px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 3px solid orange;
+            background-color: orange;
+            color: white;
+            text-align: center;
+            display: block;
+            margin: 0 auto;
+            font-size: 2vw;
+            font-weight: 600;
+            border-radius: 15px;
+        }
+
+            #button:hover {
+                background-color: white;
+                color: orange;
+            }
+            .pic{
+                width:45vw;
+                height:auto;
+               position:absolute;
+               top:5vh;
+               left:-7vw;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="pic-holder"></div>
+    <img src="~/img/login.png" class="pic" alt="">
+    <div class="info">
+        <p class="login">Log In</p>
+        <p class="text">Bring your friends a great surprise<br> with the help of BirthMinder</p>
+    </div>
+    <div class="container border border-5 rounded mt-3" id="login-form">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group merg">
+                <!--<label asp-for="" class="control-label"></label>-->
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group merg">
+                <!-- <label asp-for="Password" class="control-label"></label>-->
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input asp-for="RememberMe" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label" asp-for="RememberMe">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                </div>
+                <div class="form-group merg">
+                    <input id="button" type="submit" value="Sign In" class="btn btn-primary" />
+                </div>
+                <div>
+                    <asp:Label Text="Don't have an account?"></asp:Label>
+                </div>
+        </form>
+    </div>
+
+</body>

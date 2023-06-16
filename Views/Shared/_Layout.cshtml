@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Birthminder</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        img {
+            width: 20%;
+            height: 10%;
+            margin: 30px;
+        }
+
+        .nav-item {
+            position: relative;
+            text-decoration: none;
+            color: black;
+            font-size: 1.5em;
+            margin-left: 4vw;
+            top: -40px;
+            font-family: Segoe UI;
+            z-index:5;
+        }
+
+        .nav-item:hover {
+            text-decoration: underline;
+        }
+        </style>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        @if (this.User.IsInRole("Admin"))
+        {
+            <header>
+                <img src="~/logo.png">
+
+                <a id="home" class="nav-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a id="members" class="nav-item" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                <a class="nav-item" asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a>
+                <a class="nav-item" asp-area="" asp-controller="Teams" asp-action="Index">Teams</a>
+                <a class="nav-item" asp-area="" asp-controller="Wishes" asp-action="Index">Wishes</a>
+                <a class="nav-item" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+            </header>
+        }
+    }
+        @if (this.User.IsInRole("Employee"))
+        {
+            {
+                <header>
+
+
+                    <img src="~/logo.png">
+
+                    <a id="home" class="nav-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <a id="wishlist" class="nav-item" asp-area="" asp-controller="Wishes" asp-action="MyWishList">My Wishlist</a>
+                    <a id="members" class="nav-item" asp-area="" asp-controller="Wishes" asp-action="Members">Members</a>
+                    <a class="nav-item" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                </header>
+            }
+
+        }
+        else
+        {
+            <header>
+
+
+                <img src="~/logo.png">
+
+                <a id="home" class="nav-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="nav-item" asp-area="" asp-controller="Users" asp-action="Login">Log In</a>
+                <a class="nav-item" asp-area="" asp-controller="Users" asp-action="Register">Register</a>
+            </header>
+        }
+
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>

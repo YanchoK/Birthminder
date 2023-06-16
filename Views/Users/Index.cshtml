@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Birthminder.Data.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        p {
+            font-family: "Segoe UI";
+            font-size: 3vw;
+            margin-top: 10vh;
+     
+        }
+
+        .line {
+            position: relative;
+            width: 45vw;
+            height: 5px;
+            background-color: orange;
+            border-radius: 25px;
+        }
+
+        .under-section {
+            position: absolute;
+            text-align: center;
+            font-size: 1.5vw;
+            font-family: "Segoe UI";
+            left: 10vw;
+        }
+        #home{
+            text-decoration:underline;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        <a asp-action="Create" class="btn">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Team.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LockoutEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LockoutEnabled)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccessFailedCount)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Team.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LockoutEnd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LockoutEnabled)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccessFailedCount)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

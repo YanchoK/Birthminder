@@ -1,0 +1,272 @@
+﻿@model Birthminder.Models.Wishes.WishFormModel
+
+@{
+    ViewData["Title"] = "WishEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .drop-zone {
+            position: relative;
+            top: -2vh;
+            left: 10vw;
+            max-width: 200px;
+            height: 100px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: "Quicksand", sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            cursor: pointer;
+            color: #cccccc;
+            border: 4px dashed orange;
+            border-radius: 10px;
+        }
+
+        .drop-zone--over {
+            border-style: solid;
+        }
+
+        .drop-zone__input {
+            display: none;
+        }
+
+        .drop-zone__thumb {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #cccccc;
+            background-size: cover;
+            position: relative;
+        }
+
+            .drop-zone__thumb::after {
+                content: attr(data-label);
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                padding: 5px 0;
+                color: #ffffff;
+                background: rgba(0, 0, 0, 0.75);
+                font-size: 14px;
+                text-align: center;
+            }
+    </style>
+
+    <style>
+
+        .form-control {
+            margin-left: 10vw;
+            width: 38vw;
+            height: 8vh;
+            margin-bottom: 20px;
+            border: 2px solid orange;
+            border-radius: 5px;
+            font-size: 1.2vw;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .btn1 {
+            text-decoration: none;
+
+            position: absolute;
+            top: 90vh;
+            left: 75vw;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: 3px solid #F5821F;
+      
+            font-size: 2vw;
+            font-weight: 600;
+            border-radius: 15px;
+            background-color: white;
+            color: #F5821F;
+        }
+
+
+
+        .btn2 {
+            position: absolute;
+            top: 90vh;
+            left: 85vw;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: 3px solid #F5821F;
+            background-color: #F5821F;
+            font-size: 2vw;
+            font-weight: 600;
+            border-radius: 15px;
+        }
+
+            .btn2:hover {
+                background-color: white;
+                color: #F5821F;
+            }
+
+        .btn3 {
+            position: absolute;
+            top: 90vh;
+            left: 5vw;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: 3px solid #F52E1F;
+            background-color: #F52E1F;
+            font-size: 2vw;
+            font-weight: 600;
+            border-radius: 15px;
+
+        }
+
+            .btn3:hover {
+                background-color: white;
+                color: #F52E1F;
+            }
+        .field-validation-error {
+            position: absolute;
+            left: 50vw;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="~/img/Fly.png" style=" height:100vh;width:auto; position:absolute; bottom:0px;right:0px; margin:0px" z-index:-20;>
+
+    <form enctype="multipart/form-data" asp-action="WishEdit">
+        <div class="row align-items-start">
+
+            <span asp-validation-for="WishImage"></span>
+            <div class="drop-zone">
+                <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                <input asp-for="WishImage" class="drop-zone__input">
+            </div>
+
+            <input asp-for="ImagePath" id="imagelink__holder" value="@ViewBag.ImageLink" type="hidden" />
+
+            <div class="col">
+                <div>
+                    <span asp-validation-for="Title"></span>
+                    <input asp-for="Title" class="form-control" placeholder="Enter Wish">
+                </div>
+                <div>
+                    <span asp-validation-for="Link"></span>
+                    <input asp-for="Link" class="form-control" placeholder="Enter Link">
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="form-floating ">
+                <textarea asp-for="Description" class="form-control " style="height: 15vh;margin-bottom:1vh;" placeholder="Description"></textarea>
+            </div>
+        </div>
+
+
+        <a asp-action="MyWishList" id="btn" class="btn1">Cancel</a>
+        <button type="submit" id="btn" class="btn2">Save</button>
+        <button asp-action="WishDelete" asp-route-id="@ViewBag.Id" id="btn" class="btn3">Delete</button>
+    </form>
+    <script>
+        window.onload = showFile();
+
+        document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+            const dropZoneElement = inputElement.closest(".drop-zone");
+
+            dropZoneElement.addEventListener("click", (e) => {
+                inputElement.click();
+            });
+
+            inputElement.addEventListener("change", (e) => {
+                if (inputElement.files.length) {
+                    updateThumbnail(dropZoneElement, inputElement.files[0]);
+                }
+            });
+
+            dropZoneElement.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                dropZoneElement.classList.add("drop-zone--over");
+            });
+
+            ["dragleave", "dragend"].forEach((type) => {
+                dropZoneElement.addEventListener(type, (e) => {
+                    dropZoneElement.classList.remove("drop-zone--over");
+                });
+            });
+
+            dropZoneElement.addEventListener("drop", (e) => {
+                e.preventDefault();
+
+                if (e.dataTransfer.files.length) {
+                    inputElement.files = e.dataTransfer.files;
+                    updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+                }
+
+                dropZoneElement.classList.remove("drop-zone--over");
+            });
+        });
+
+        function showFile() {
+            imageName = document.getElementById("imagelink__holder").value;
+            if (!imageName) return;
+
+            fetch(@Url.Content("~/userImages/") + imageName)
+                .then(response => response.blob())
+                .then(image => {
+                    updateThumbnail(document.querySelector(".drop-zone__input").closest(".drop-zone"), blobToFile(image, imageName.split('_')[1]));
+                });
+        }
+
+        function blobToFile(theBlob, fileName) {
+            theBlob.lastModifiedDate = new Date();
+            theBlob.name = fileName;
+            return theBlob;
+        }
+
+        function updateThumbnail(dropZoneElement, file) {
+            let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+            // First time - remove the prompt
+            if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+                dropZoneElement.querySelector(".drop-zone__prompt").remove();
+            }
+
+            // First time - there is no thumbnail element, so lets create it
+            if (!thumbnailElement) {
+                thumbnailElement = document.createElement("div");
+                thumbnailElement.classList.add("drop-zone__thumb");
+                dropZoneElement.appendChild(thumbnailElement);
+            }
+
+            thumbnailElement.dataset.label = file.name;
+
+            // Show thumbnail for image files
+            if (file.type.startsWith("image/")) {
+                const reader = new FileReader();
+
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+                };
+            } else {
+                thumbnailElement.style.backgroundImage = null;
+            }
+        }
+
+    </script>
+
+</body>
